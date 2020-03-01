@@ -29,7 +29,7 @@ class TestTestgroup():
     self.driver.find_element(By.LINK_TEXT, "groups").click()
     self.driver.find_element(By.NAME, "new").click()
     self.driver.find_element(By.NAME, "group_name").click()
-    self.driver.find_element(By.NAME, "group_name").send_keys("test1")
+    self.driver.find_element(By.NAME, "group_name").send_keys("test1-1")
     self.driver.find_element(By.NAME, "group_header").click()
     self.driver.find_element(By.NAME, "group_header").send_keys("test1")
     self.driver.find_element(By.NAME, "group_footer").click()
