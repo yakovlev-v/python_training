@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
-import unittest, time, re
+import unittest
+
 
 class AppDynamicsJob(unittest.TestCase):
     def setUp(self):
@@ -16,18 +14,25 @@ class AppDynamicsJob(unittest.TestCase):
         self.base_url = "https://www.google.com/"
         self.verificationErrors = []
         self.accept_next_alert = True
-    
-    def test_app_dynamics_job(self):
-        driver = self.driver
+
+    def open_home_page(self, driver):
         driver.get("http://localhost/addressbook/")
+
+    def login(self, driver):
         driver.find_element_by_name("user").clear()
         driver.find_element_by_name("user").send_keys("admin")
         driver.find_element_by_name("pass").click()
         driver.find_element_by_name("pass").clear()
         driver.find_element_by_name("pass").send_keys("secret")
         driver.find_element_by_xpath("//input[@value='Login']").click()
+
+    def open_groups_page(self, driver):
         driver.find_element_by_link_text("groups").click()
+
+    def create_group(self, driver):
+        # открыть страницу групп
         driver.find_element_by_name("new").click()
+        # ввод данных группы
         driver.find_element_by_name("group_name").click()
         driver.find_element_by_name("group_name").clear()
         driver.find_element_by_name("group_name").send_keys("2")
@@ -39,10 +44,23 @@ class AppDynamicsJob(unittest.TestCase):
         driver.find_element_by_name("group_footer").send_keys("2")
         driver.find_element_by_xpath("//form[@action='/addressbook/group.php']").click()
         driver.find_element_by_name("submit").click()
-        driver.find_element_by_link_text("groups").click()
+
+    def logout(self, driver):
         driver.find_element_by_link_text("Logout").click()
+
+    def close_browser(self, driver):
         driver.close()
-    
+
+    def test_app_dynamics_job(self):
+        driver = self.driver
+        self.open_home_page(driver)
+        self.login(driver)
+        self.open_groups_page(driver)
+        self.create_group(driver)
+        self.open_groups_page(driver)
+        self.logout(driver)
+        self.close_browser(driver)
+
     def is_element_present(self, how, what):
         try: self.driver.find_element(by=how, value=what)
         except NoSuchElementException as e: return False
