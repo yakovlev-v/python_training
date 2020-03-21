@@ -25,3 +25,13 @@ class GroupHelper:
         driver.find_element_by_xpath("//form[@action='/addressbook/group.php']").click()
         driver.find_element_by_name("submit").click()
         self.open_groups_page()
+
+    def delete_first_group(self):
+        driver = self.app.driver
+        # открыть страницу групп
+        self.open_groups_page()
+        # выбрать первую группу
+        driver.find_element_by_name("selected[]").click()
+        # удалить первую группу
+        driver.find_element_by_name("delete").click()
+        self.open_groups_page()
